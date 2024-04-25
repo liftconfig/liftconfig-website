@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 date: 2024-04-25
 slug: static-website-aws
 categories:
@@ -45,7 +45,7 @@ There are 4 components to the build, each backed by a corresponding GitHub repos
 
 ### 1. Bootstrap Environment
 
-> Repository: [liftconfig-tfc-boostrap](https://github.com/liftconfig/liftconfig-tfc-bootstrap)
+> Repository: [liftconfig-tfc-bootstrap](https://github.com/liftconfig/liftconfig-tfc-bootstrap)
 
 To meet DDs 2 & 3, a Terraform bootstrap environment consisting of a TFC workspace backed by a GitHub repository is used.
 
@@ -53,7 +53,7 @@ The TFC workspace provisions the following resources:
 
 1. TFC root workspace and GitHub repository used for provisioning the AWS services required to run the static website
 2. TFC private registry module and GitHub repository for the `terraform-aws-s3-website` module. This module is used by the root workspace and contains Terraform resources for the production & test environments.
-3. GitHub repository containing the raw website files in Markdown format. GitHub Actions used in this repository to build and deploy the website to production & test S3 buckets.
+3. GitHub repository containing the raw website files in Markdown format. GitHub Actions is used in this repository to build and deploy the website to production & test S3 buckets.
 
 #### Container Diagram
 
@@ -85,7 +85,7 @@ The following manual configuration is required to set up the bootstrap environme
 
 > Repository: [liftconfig-tfc-root](https://github.com/liftconfig/liftconfig-tfc-root)
 
-This Terraform root workspace is provisioned by the bootstrap workspace. It serves two purposes:
+The root workspace is provisioned by the bootstrap workspace. It serves two purposes:
 
 1. Provisions the required AWS services to host the production & test websites using the `terraform-aws-s3-website` module
 2. Provisions the AWS IAM user, policy, and role to enable GitHub Actions in the website repository to sync the website files to the production & test S3 buckets
@@ -104,7 +104,7 @@ The workspace variables must be set in TFC (see README in repository for details
 
 > Repository: [terraform-aws-s3-website](https://github.com/liftconfig/terraform-aws-s3-website)
 
-This is a private terraform module stored in the TFC registry. The module uses Git tags to control TFC versioning. As with the root workspace, both the module and GitHub repository is provisioned by the bootstrap workspace.
+This is a private terraform module stored in the TFC registry. The module uses Git tags to control TFC versioning. Both the module and GitHub repository is provisioned by the bootstrap workspace.
 
 #### Module Purpose
 
@@ -146,7 +146,7 @@ Contains the markdown files and [Material for MkDocs](https://squidfunk.github.i
 
 The secret variables required for the GitHub Action must be set within the repository (see README in repository for details)
 
-> As an extra security measure for public facing repositories it is recommended to change the GitHub setting "actions > general > fork pull request workflows from outside collaborators" to "require approval for all outside collaborators". This safeguards against Actions being run by a PR raised by an unauthorised collaborator. Unfortunately this setting is not exposed by the GitHub API, so it can't be automatically configured using Terraform from the bootstrap workspace.
+> As an extra security measure for public facing repositories it is recommended to change the GitHub setting "actions > general > fork pull request workflows" from "outside collaborators" to "require approval for all outside collaborators". This safeguards against Actions being run by a PR raised by an unauthorised collaborator. Unfortunately this setting is not exposed by the GitHub API, so it can't be automatically configured using Terraform from the bootstrap workspace.
 
 ## Costs
 
@@ -158,7 +158,7 @@ The secret variables required for the GitHub Action must be set within the repos
 | CloudFront   | HTTPS request                                   | $0.0075 per 1000 HTTP method    |
 |              | Sending Data to visitors (US)                   | $0.085 per GB                   |
 |              | CloudFront Function                             | $0.1 per million runs           |
-| Route 53     | Domain registration (liftconfig.com)            | $1 (\$12 renewed annually)      |
+| Route 53     | Domain registration (liftconfig.com)            | $1 (\$12 annual renewal)        |
 |              | Hosted zone                                     | $0.50 per zone                  |
 |              | Queries                                         | $0.40 per million queries       |
 | S3 buckets   | Storage                                         | $0.023 per GB                   |
@@ -168,7 +168,7 @@ The secret variables required for the GitHub Action must be set within the repos
 
 ### Terraform Cloud costs
 
-[Free](https://www.hashicorp.com/products/terraform/pricing) for up to 500 resources per month, then 0.00014 per hour per resource. As the environment was built using a new TFC cloud account the resources for this project fall into the free tier.
+[Free](https://www.hashicorp.com/products/terraform/pricing) for up to 500 resources per month, then 0.00014 per hour per resource. As the environment was built using a new TFC cloud account the ~50 resources for this project are covered in the free tier.
 
 ### Cost savings
 
@@ -185,7 +185,7 @@ There are a few benefits to using the outlined approach for hosting a statically
 
 - All infrastructure is version controlled and configured using IaC. The required infrastructure for hosting a website can be spun up or down in minutes.
 - Creating a module for `terraform-aws-s3-website` allows the code to easily be reused for provisioning other websites in the future
-- All website files are written in markdown meaning they are version controlled and can easily be ported to a different statically-generated website framework. In this instance I used [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) but examples of other popular static website generators that could be used are Hugo and Gatsby.
+- All website files are written in markdown meaning they are version controlled and can easily be ported to a different statically-generated website framework. In this instance I used [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) but other popular static website generators such as Hugo or Gatsby could be used.
 - Having a local development environment (dev container), a test environment (S3 website hosting) and a production environment (CloudFront) provides the confidence that any updates to the website will work as expected.
 - Low cost
 
