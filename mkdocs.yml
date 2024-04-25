@@ -24,6 +24,7 @@ theme:
     - search.suggest
     - toc.follow
     # - toc.integrate
+  favicon: assets/images/favicon.png
   icon:
     logo: simple/googlecontaineroptimizedos
   language: en
