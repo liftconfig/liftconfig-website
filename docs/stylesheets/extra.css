@@ -1,0 +1,19 @@
+.md-grid {
+  max-width: 1920px;
+}
+
+ 
+@media(min-width:97em) {
+  html {
+      font-size: 125%
+  }
+}
+
+.center {
+  display: block;
+  margin: 0 auto;
+}
+
+.no-space {
+  margin-right: -0.2em;
+}

@@ -1,0 +1,51 @@
+name: build and deploy website to S3
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+ 
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: | 
+          pip install -r requirements.txt
+        
+      - name: Build website
+        run: mkdocs build
+        
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{secrets.AWS_ROLE}}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: S3 sync test website
+        if: ${{ github.event_name == 'pull_request' }}
+        run: aws s3 sync --delete ./site/ s3://${{ secrets.AWS_WEBSITE_TEST_BUCKET_NAME }}
+
+      - name: S3 sync production website
+        if: ${{ github.event_name == 'push' }}
+        run: aws s3 sync --delete ./site/ s3://${{ secrets.AWS_WEBSITE_BUCKET_NAME }}
+
+      - name: Invalidate cloudfront distribution cache
+        if: ${{ github.event_name == 'push' }}
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*';

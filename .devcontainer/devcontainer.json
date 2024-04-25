@@ -1,0 +1,17 @@
+{
+  "name": "mkdocs-website",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "appPort": [8000],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "DavidAnson.vscode-markdownlint",
+        "yzhang.markdown-all-in-one",
+        "qcz.text-power-tools",
+        "github.vscode-github-actions"
+      ]
+    }
+  }
+}

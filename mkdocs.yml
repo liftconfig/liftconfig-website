@@ -1,0 +1,128 @@
+site_author: Tim Howlinson
+site_name: liftconfig
+site_url: https://liftconfig.com
+repo_name: liftconfig/website
+repo_url: https://github.com/liftconfig/liftconfig-website
+dev_addr: '0.0.0.0:8000'
+
+theme:
+  name: material
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - navigation.expand
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.path
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+  icon:
+    logo: simple/googlecontaineroptimizedos
+  language: en
+  palette:
+    - scheme: slate
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/toggle-switch-off
+        name: Switch to Light Mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to Dark Mode
+
+plugins:
+  - search:
+      lang: en
+  - tags:
+      tags_file: tags.md
+  - blog:
+      categories: true 
+      categories_name: Categories
+      categories_allowed:
+        - cloud
+        - iac
+        - networking
+        - programming
+  - social: 
+      cards_layout_options:
+        background_color: "#1F2129"
+        color: "#BFC1C7"
+  - rss:
+      match_path: blog/posts/.* 
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/timhowlinson
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/liftconfig
+    - icon: fontawesome/solid/envelope
+      link: mailto:tim.howlinson@gmail.com
+    - icon: fontawesome/solid/dumbbell
+      link: https://www.openpowerlifting.org/u/timhowlinson
+  generator: false
+  analytics:
+    provider: google
+    property: G-C3VKY555NW
+
+extra_css:
+  - stylesheets/extra.css
+  
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.mark
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+nav:
+  - Blog:
+    - blog/index.md
+  - Reference:
+    #- Networking:
+    #  - Cisco IOS-XR: networking/iosxr.md
+    #  - FortiOS: networking/fortinet.md
+    #  - VMware NSX-T: networking/nsxt.md
+    - IaC:
+      - Terraform (MTC): iac/terraform-mtc.md
+  - About:
+    - about/index.md
+    - Office Setup: about/office-setup.md
+    - Gym Setup: about/gym-setup.md
+  - Tags: tags.md
+
+copyright: |
+  &copy; 2024 liftconfig
+
+
