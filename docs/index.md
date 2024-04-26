@@ -1,4 +1,6 @@
 ---
+title: liftconfig.com
+description: Exploring Automation, Cloud, Network Engineering, and Programming - with a side of deadlifts
 hide:
   - navigation
   - toc
