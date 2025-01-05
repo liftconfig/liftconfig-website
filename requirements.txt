@@ -1,4 +1,4 @@
-mkdocs-material==9.5.18
-mkdocs-rss-plugin==1.12.1
+mkdocs-material==9.5.49
+mkdocs-rss-plugin==1.17.1
 mkdocs-material[imaging]
 pytz

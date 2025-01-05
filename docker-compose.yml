@@ -1,0 +1,10 @@
+services:
+  mkdocs:
+    image: mkdocs:1.0
+    container_name: mkdocs-website
+    working_dir: /usr/src/mkdocs-website
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/usr/src/mkdocs-website
+    command: ["mkdocs", "serve", "--dev-addr=0.0.0.0:8000"]

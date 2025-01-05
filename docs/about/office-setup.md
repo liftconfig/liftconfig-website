@@ -1,6 +1,6 @@
 # Office Setup
 
-Since working from home I've been upgrading my office setup with an emphasis on ergonomics. I believe in investing in high quality tools to make time spent working and studying more productive and enjoyable.
+**test** Since working from home I've been upgrading my office setup with an emphasis on ergonomics. I believe in investing in high quality tools to make time spent working and studying more productive and enjoyable.
 
 ## Equipment
 
